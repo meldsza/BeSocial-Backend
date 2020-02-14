@@ -17,3 +17,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::post('/register', 'Auth\APIRegisterController@create');
+
+Route::apiResource('quest', 'API\QuestController')->middleware('auth:api');
+Route::apiResource('questLog', 'API\QuestLogController')->middleware('auth:api');
+Route::get('/categories', 'API\CategoryController@index');

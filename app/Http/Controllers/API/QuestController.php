@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Quest;
+use Auth;
 use Illuminate\Http\Request;
 
 class QuestController extends Controller
@@ -19,10 +20,12 @@ class QuestController extends Controller
      */
     public function index(Request $request)
     {
-        if($request->has('q'))
+        if ($request->has('q')) {
             $quests = Quest::where('name', 'LIKE', '%' . $request->input('q') . '%')->paginate(50);
-        else
+        } else {
             $quests = Quest::paginate(50);
+        }
+
         return $quests;
 
     }
@@ -35,8 +38,15 @@ class QuestController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->validate(['name' => 'string|required', 'points' => 'integer|required']);
-        $data['user_id'] = $request->user_id;
+        $data = $request->validate(['name' => 'string|required',
+            'points' => 'integer|required',
+            'description' => 'required',
+            'category_id' => 'integer|required',
+            'latitude' => 'required',
+            'longitude' => 'required',
+        ]);
+        $data['user_id'] = Auth::id();
+        $data['status'] = 0;
         $quests = Quest::create($data);
 
         return $quests;
@@ -75,6 +85,6 @@ class QuestController extends Controller
     public function destroy(Quest $quest)
     {
         $quest->delete();
-        return ['message'=> 'Quest deleted.'];
+        return ['message' => 'Quest deleted.'];
     }
 }
