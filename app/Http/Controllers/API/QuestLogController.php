@@ -19,7 +19,11 @@ class QuestLogController extends Controller
      */
     public function index()
     {
-        //
+        if($request->has('q'))
+            $questLog = QuestLog::where('name', 'LIKE', '%' . $request->input('q') . '%')->paginate(50);
+        else
+            $questLog = QuestLog::paginate(50);
+        return view('questLog.index', ['questLog' => $questLog]);
     }
 
     /**
@@ -41,7 +45,7 @@ class QuestLogController extends Controller
      */
     public function show(QuestLog $questLog)
     {
-        //
+        return view('questLog.show', ['questLog' => $questLog]);
     }
 
     /**

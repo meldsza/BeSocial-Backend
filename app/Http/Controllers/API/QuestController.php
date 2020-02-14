@@ -17,9 +17,13 @@ class QuestController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if($request->has('q'))
+            $quests = Quest::where('name', 'LIKE', '%' . $request->input('q') . '%')->paginate(50);
+        else
+            $quests = Quest::paginate(50);
+        return view('quests.index', ['quests' => $quests]);
     }
 
     /**
@@ -30,7 +34,11 @@ class QuestController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate(['name' => 'string|required', 'points' => 'integer|required']);
+        $data['user_id'] = $request->user_id;
+        $quests = Quest::create($data);
+
+        return redirect(route('tasks'))->with('success', 'Quest added successfully');
     }
 
     /**
@@ -41,7 +49,7 @@ class QuestController extends Controller
      */
     public function show(Quest $quest)
     {
-        //
+        return view('quests.show', ['quest' => $quest]);
     }
 
     /**
@@ -53,7 +61,8 @@ class QuestController extends Controller
      */
     public function update(Request $request, Quest $quest)
     {
-        //
+        $quest->update($request->validate(['name' => 'string|required', 'points' => 'integer|required']));
+        return redirect(route('tasks'))->with('success', 'Quest updated successfully');
     }
 
     /**
@@ -64,6 +73,7 @@ class QuestController extends Controller
      */
     public function destroy(Quest $quest)
     {
-        //
+        $quest->delete();
+        return back()->with('success', 'Quest deleted.');
     }
 }
