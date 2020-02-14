@@ -15,8 +15,8 @@ class CreateQuestLogsTable extends Migration
     {
         Schema::create('quest_logs', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('quest_id');
-            $table->bigInteger('user_id');
+            $table->unsignedBigInteger('quest_id');
+            $table->unsignedBigInteger('user_id');
             $table->boolean('status');
             $table->timestamps();
         });
