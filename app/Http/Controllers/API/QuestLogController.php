@@ -23,7 +23,7 @@ class QuestLogController extends Controller
             $questLog = QuestLog::where('name', 'LIKE', '%' . $request->input('q') . '%')->paginate(50);
         else
             $questLog = QuestLog::paginate(50);
-        return view('questLog.index', ['questLog' => $questLog]);
+        return $questLog;
     }
 
     /**
@@ -34,7 +34,12 @@ class QuestLogController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate(['quest_id' => 'integer|required']);
+        $data['user_id'] = $request->user_id;
+        $data['status'] = 0;
+        $questLog = QuestLog::create($data);
+
+        return $questLog;
     }
 
     /**
@@ -45,7 +50,7 @@ class QuestLogController extends Controller
      */
     public function show(QuestLog $questLog)
     {
-        return view('questLog.show', ['questLog' => $questLog]);
+        return $questLog;
     }
 
     /**
@@ -57,7 +62,7 @@ class QuestLogController extends Controller
      */
     public function update(Request $request, QuestLog $questLog)
     {
-        //
+        return 404;
     }
 
     /**
@@ -68,6 +73,15 @@ class QuestLogController extends Controller
      */
     public function destroy(QuestLog $questLog)
     {
-        //
+        return 404;
+    }
+
+    public function completed(QuestLog $questLog)
+    {
+        $questLog->status = 1;
+        $user = $questLog->user;
+        $user->points += $questLog->quest->points;
+        $user->save();
+        $questLog->save();
     }
 }

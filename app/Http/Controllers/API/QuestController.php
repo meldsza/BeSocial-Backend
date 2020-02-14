@@ -23,7 +23,8 @@ class QuestController extends Controller
             $quests = Quest::where('name', 'LIKE', '%' . $request->input('q') . '%')->paginate(50);
         else
             $quests = Quest::paginate(50);
-        return view('quests.index', ['quests' => $quests]);
+        return $quests;
+
     }
 
     /**
@@ -38,7 +39,7 @@ class QuestController extends Controller
         $data['user_id'] = $request->user_id;
         $quests = Quest::create($data);
 
-        return redirect(route('tasks'))->with('success', 'Quest added successfully');
+        return $quests;
     }
 
     /**
@@ -49,7 +50,7 @@ class QuestController extends Controller
      */
     public function show(Quest $quest)
     {
-        return view('quests.show', ['quest' => $quest]);
+        return $quest;
     }
 
     /**
@@ -62,7 +63,7 @@ class QuestController extends Controller
     public function update(Request $request, Quest $quest)
     {
         $quest->update($request->validate(['name' => 'string|required', 'points' => 'integer|required']));
-        return redirect(route('tasks'))->with('success', 'Quest updated successfully');
+        return $quest;
     }
 
     /**
@@ -74,6 +75,6 @@ class QuestController extends Controller
     public function destroy(Quest $quest)
     {
         $quest->delete();
-        return back()->with('success', 'Quest deleted.');
+        return ['message'=> 'Quest deleted.'];
     }
 }
