@@ -7,7 +7,7 @@ use App\User;
 use Illuminate\Support\Facades\Hash;
 use Request;
 
-class RegisterController extends Controller
+class APIRegisterController extends Controller
 {
 
     /**
