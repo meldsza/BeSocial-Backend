@@ -8,7 +8,7 @@ class QuestLog extends Model
 {
     protected $table = 'quest_logs';
     protected $fillable = [
-        'quest_id', 'user_id', 'status'
+        'quest_id', 'user_id', 'status',
     ];
     protected $primaryKey = 'id';
 
@@ -21,4 +21,5 @@ class QuestLog extends Model
     {
         return $this->belongsTo("App\Quest");
     }
+    protected $with = ['user', 'quest'];
 }

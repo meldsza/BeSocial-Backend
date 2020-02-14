@@ -26,6 +26,7 @@ class APIRegisterController extends Controller
         ]);
         return User::create([
             'name' => $data['name'],
+            'avatar' => 'https://ui-avatars.com/api/?name=' . urlencode($data['name']),
             'email' => $data['email'],
             'phone' => $data['phone'],
             'points' => 0,

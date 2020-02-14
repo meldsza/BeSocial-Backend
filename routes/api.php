@@ -20,4 +20,7 @@ Route::post('/register', 'Auth\APIRegisterController@create');
 
 Route::apiResource('quest', 'API\QuestController')->middleware('auth:api');
 Route::apiResource('questLog', 'API\QuestLogController')->middleware('auth:api');
-Route::get('/categories', 'API\CategoryController@index');
+Route::get('/categories', 'API\CategoryController@index')->middleware('auth:api');
+Route::get('/my_quests', 'API\QuestController@myQuests')->middleware('auth:api');
+Route::post('/questLog/{questLog}/completed', 'API\QuestLogController@completed')->middleware('auth:api');
+Route::get('/my_quest_logs', 'API\QuestLogController@myQuestLogs')->middleware('auth:api');

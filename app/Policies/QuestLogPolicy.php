@@ -53,7 +53,7 @@ class QuestLogPolicy
      */
     public function update(User $user, QuestLog $questLog)
     {
-        return $questLog->user_id == $user->id || $questLog->quest->user_id == $user->id;
+        return $questLog->quest->user_id == $user->id;
     }
 
     /**

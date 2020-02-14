@@ -8,13 +8,13 @@ class Quest extends Model
 {
     protected $table = 'quests';
     protected $fillable = [
-        'user_id', 'name', 'category_id', 'points', 'status', 'description', 'latitude', 'longitude'
+        'user_id', 'name', 'category_id', 'points', 'status', 'description', 'latitude', 'longitude',
     ];
     protected $primaryKey = 'id';
 
     public function author()
     {
-        return $this->belongsTo("App\User");
+        return $this->belongsTo("App\User", 'user_id');
     }
 
     public function quest_logs()
@@ -26,4 +26,6 @@ class Quest extends Model
     {
         return $this->belongsTo("App\Category");
     }
+    protected $with = ['author', 'category'];
+
 }

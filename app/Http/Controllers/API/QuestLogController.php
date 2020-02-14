@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\QuestLog;
+use Auth;
 use Illuminate\Http\Request;
 
 class QuestLogController extends Controller
@@ -19,13 +20,24 @@ class QuestLogController extends Controller
      */
     public function index()
     {
-        if($request->has('q'))
+        if ($request->has('q')) {
             $questLog = QuestLog::where('name', 'LIKE', '%' . $request->input('q') . '%')->paginate(50);
-        else
+        } else {
             $questLog = QuestLog::paginate(50);
+        }
+
         return $questLog;
     }
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function myQuestLogs(Request $request)
+    {
+        return Auth::user()->quest_logs;
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -35,7 +47,7 @@ class QuestLogController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate(['quest_id' => 'integer|required']);
-        $data['user_id'] = $request->user_id;
+        $data['user_id'] = Auth::id();
         $data['status'] = 0;
         $questLog = QuestLog::create($data);
 
@@ -62,7 +74,8 @@ class QuestLogController extends Controller
      */
     public function update(Request $request, QuestLog $questLog)
     {
-        return 404;
+        $questLog->update($request->all());
+        return ["message" => 'Sucessfully updated'];
     }
 
     /**
@@ -75,13 +88,27 @@ class QuestLogController extends Controller
     {
         return 404;
     }
-
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Quest  $quest
+     * @return \Illuminate\Http\Response
+     */
     public function completed(QuestLog $questLog)
     {
-        $questLog->status = 1;
+        $questLog->status = 3;
+        $quest = $questLog->quest;
+        $org_user = $quest->author;
+
         $user = $questLog->user;
-        $user->points += $questLog->quest->points;
+        $user->points = $user->points + $quest->points;
+
+        $org_user->points = $org_user->points - $quest->points;
+        $quest->status = 2;
+        $org_user->save();
         $user->save();
         $questLog->save();
+        $quest->save();
+        return ['message' => 'completed'];
     }
 }

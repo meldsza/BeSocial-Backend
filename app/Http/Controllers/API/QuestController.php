@@ -20,14 +20,25 @@ class QuestController extends Controller
      */
     public function index(Request $request)
     {
+        $quests = Quest::where('status', 0)->where('user_id', '!=', Auth::id());
         if ($request->has('q')) {
-            $quests = Quest::where('name', 'LIKE', '%' . $request->input('q') . '%')->paginate(50);
+            $quests = $quests->where('name', 'LIKE', '%' . $request->input('q') . '%')->get();
         } else {
-            $quests = Quest::paginate(50);
+            $quests = $quests->get();
         }
 
         return $quests;
 
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function myQuests(Request $request)
+    {
+        return Auth::user()->quests;
     }
 
     /**
@@ -38,7 +49,8 @@ class QuestController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->validate(['name' => 'string|required',
+        $data = $request->validate([
+            'name' => 'string|required',
             'points' => 'integer|required',
             'description' => 'required',
             'category_id' => 'integer|required',
@@ -60,6 +72,7 @@ class QuestController extends Controller
      */
     public function show(Quest $quest)
     {
+        $quest->load('quest_logs');
         return $quest;
     }
 
@@ -72,7 +85,14 @@ class QuestController extends Controller
      */
     public function update(Request $request, Quest $quest)
     {
-        $quest->update($request->validate(['name' => 'string|required', 'points' => 'integer|required']));
+        $quest->update($request->validate([
+            'name' => 'string|nullable',
+            'points' => 'integer|nullable',
+            'description' => 'nullable',
+            'category_id' => 'integer|nullable',
+            'latitude' => 'nullable',
+            'status' => 'nullable',
+            'longitude' => 'nullable']));
         return $quest;
     }
 
@@ -87,4 +107,5 @@ class QuestController extends Controller
         $quest->delete();
         return ['message' => 'Quest deleted.'];
     }
+
 }
