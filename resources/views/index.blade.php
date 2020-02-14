@@ -27,7 +27,7 @@
                     <li class="nav-item" role="presentation"><a class="nav-link js-scroll-trigger"
                             href="#download">Download</a></li>
                     <li class="nav-item" role="presentation"><a class="nav-link js-scroll-trigger"
-                            href="#features">Login</a></li>
+                            href="http://192.168.1.101:8080/">Login</a></li>
                     <li class="nav-item" role="presentation"><a class="nav-link js-scroll-trigger"
                             href="#contact">Faq</a></li>
                     <li class="nav-item" role="presentation"><a class="nav-link js-scroll-trigger"
