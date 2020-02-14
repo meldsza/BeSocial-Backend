@@ -11,4 +11,19 @@ class Quest extends Model
         'user_id', 'category_id', 'points', 'status', 'description', 'latitude', 'longitude'
     ];
     protected $primaryKey = 'id';
+
+    public function author()
+    {
+        return $this->belongsTo("App\User");
+    }
+
+    public function quest_logs()
+    {
+        return $this->hasMany("App\QuestLog");
+    }
+
+    public function category()
+    {
+        return $this->belongsTo("App\Category");
+    }
 }

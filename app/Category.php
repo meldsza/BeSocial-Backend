@@ -11,4 +11,9 @@ class Category extends Model
         'name'
     ];
     protected $primaryKey = 'id';
+
+    public function quests()
+    {
+        return $this->hasMany("App\Quest");
+    }
 }
