@@ -18,7 +18,7 @@ class QuestPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -30,7 +30,7 @@ class QuestPolicy
      */
     public function view(User $user, Quest $quest)
     {
-        //
+        return true;
     }
 
     /**
@@ -41,7 +41,7 @@ class QuestPolicy
      */
     public function create(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -53,7 +53,7 @@ class QuestPolicy
      */
     public function update(User $user, Quest $quest)
     {
-        //
+        return $quest->user_id == $user->id;
     }
 
     /**
@@ -65,7 +65,7 @@ class QuestPolicy
      */
     public function delete(User $user, Quest $quest)
     {
-        //
+        return $quest->user_id == $user->id;
     }
 
     /**
@@ -77,7 +77,7 @@ class QuestPolicy
      */
     public function restore(User $user, Quest $quest)
     {
-        //
+        return false;
     }
 
     /**
@@ -89,6 +89,6 @@ class QuestPolicy
      */
     public function forceDelete(User $user, Quest $quest)
     {
-        //
+        return false;
     }
 }

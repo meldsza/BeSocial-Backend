@@ -41,7 +41,7 @@ class QuestLogPolicy
      */
     public function create(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -53,7 +53,7 @@ class QuestLogPolicy
      */
     public function update(User $user, QuestLog $questLog)
     {
-        //
+        return $questLog->user_id == $user->id || $questLog->quest->user_id == $user->id;
     }
 
     /**
@@ -65,7 +65,7 @@ class QuestLogPolicy
      */
     public function delete(User $user, QuestLog $questLog)
     {
-        //
+        return false;
     }
 
     /**
@@ -77,7 +77,7 @@ class QuestLogPolicy
      */
     public function restore(User $user, QuestLog $questLog)
     {
-        //
+        return false;
     }
 
     /**
@@ -89,6 +89,6 @@ class QuestLogPolicy
      */
     public function forceDelete(User $user, QuestLog $questLog)
     {
-        //
+        return false;
     }
 }
