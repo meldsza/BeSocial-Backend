@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Gate;
 use Laravel\Passport\Passport;
 
 class AuthServiceProvider extends ServiceProvider
@@ -14,8 +13,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        'App\Quest'=> 'App\Policies\QuestPolicy',
-        'App\QuestLog'=> 'App\Policies\QuestLogPolicy',
+        'App\Quest' => 'App\Policies\QuestPolicy',
+        'App\QuestLog' => 'App\Policies\QuestLogPolicy',
         // 'App\Model' => 'App\Policies\ModelPolicy',
     ];
 
@@ -30,5 +29,10 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Passport::routes();
+        Passport::tokensCan([
+            'basic' => 'View your name, email, phone and account timestamps',
+            'full' => 'Perform actions as you',
+        ]);
+        Passport::setDefaultScope(['basic']);
     }
 }
