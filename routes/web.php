@@ -14,3 +14,9 @@
 Route::get('/', function () {
     return view('index');
 });
+
+Route::get('/admin','AdminController@dashboard');
+Route::get('/admin/categories','AdminController@categories');
+Route::get('/admin/ngoapplication','AdminController@ngoapplication');
+Route::get('/admin/quests','AdminController@quests');
+Route::get('/admin/users','AdminController@users');
