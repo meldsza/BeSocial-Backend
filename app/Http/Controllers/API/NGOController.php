@@ -48,6 +48,20 @@ class NGOController extends Controller
         return 404;
     }
 
+    public function verify(NGO $nGO)
+    {
+        $nGO->verified = 1;
+        $nGO->save();
+        return back();
+    }
+
+    public function deverify(NGO $nGO)
+    {
+        $nGO->verified = 0;
+        $nGO->save();
+        return back();
+    }
+
     /**
      * Update the specified resource in storage.
      *

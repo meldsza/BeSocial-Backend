@@ -20,3 +20,6 @@ Route::get('/admin/categories','AdminController@categories');
 Route::get('/admin/ngoapplication','AdminController@ngoapplication');
 Route::get('/admin/quests','AdminController@quests');
 Route::get('/admin/users','AdminController@users');
+
+Route::post('/nGO/{nGO}/verify', 'API\NGOController@verify');
+Route::post('/nGO/{nGO}/deverify', 'API\NGOController@deverify');

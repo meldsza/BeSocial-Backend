@@ -4,7 +4,7 @@ active
 @endsection
 @section('content')
 <div class="container-fluid">
-    <h3 class="text-dark mb-4">Applications</h3>
+    <h3 class="text-dark mb-4">NGO Applications</h3>
     <div class="card shadow">
         <div class="card-header py-3">
             <p class="text-primary m-0 font-weight-bold">Application Info</p>
@@ -43,11 +43,20 @@ active
                             <td>{{ $value->identification_number }}</td>
                             <td>{{ $value->name }}</td>
                             <td>{{ $value->user_id }}</td>
-                            <td>{{ $value->verified }}</td>
+                            <td>{{ $value->verified?'Yes':'No' }}</td>
                             <td>
-                                <a class="warnban"><i class="text-center btn-danger fa fa-ban" aria-hidden="true"
-                                        data-toggle="tooltip" data-placement="right" title="Reject"></i>
-                                </a>
+                                <div class="float-left" style="padding-right:10px;">
+                                    <form method="POST" action="{{url('/nGO/'.$value->id.'/verify')}}">
+                                        @csrf<button class="btn btn-success" type="submit" title="Verify"><i
+                                                class="text-center fa fa-check" aria-hidden="true"></i></button>
+                                    </form>
+                                </div>
+                                <div class="float-left">
+                                    <form method="POST" action="{{url('/nGO/'.$value->id.'/deverify')}}"> @csrf<button
+                                            class="btn btn-danger" type="submit" title="Deverify"><i
+                                                class="text-center fa fa-ban" aria-hidden="true"></i></button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                         @endforeach
