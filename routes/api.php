@@ -16,8 +16,9 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::middleware('auth:api')->post('/user', function (Request $request) {
-    return $request->user()->update($request->all());
+Route::middleware('auth:api')->put('/user', function (Request $request) {
+    $request->user()->update($request->all());
+    return ['message' => 'Updated'];
 });
 Route::post('/register', 'Auth\APIRegisterController@create');
 

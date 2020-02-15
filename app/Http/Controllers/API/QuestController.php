@@ -49,9 +49,10 @@ class QuestController extends Controller
      */
     public function store(Request $request)
     {
+        $user = Auth::user();
         $data = $request->validate([
             'name' => 'string|required',
-            'points' => 'integer|required',
+            'points' => 'integer|required|max:' . $user->points,
             'description' => 'required',
             'category_id' => 'integer|required',
             'latitude' => 'required',
@@ -60,7 +61,8 @@ class QuestController extends Controller
         $data['user_id'] = Auth::id();
         $data['status'] = 0;
         $quests = Quest::create($data);
-
+        $user->points -= $data['points'];
+        $user->save();
         return $quests;
     }
 
@@ -87,7 +89,6 @@ class QuestController extends Controller
     {
         $quest->update($request->validate([
             'name' => 'string|nullable',
-            'points' => 'integer|nullable',
             'description' => 'nullable',
             'category_id' => 'integer|nullable',
             'latitude' => 'nullable',
