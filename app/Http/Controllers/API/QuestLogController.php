@@ -98,14 +98,11 @@ class QuestLogController extends Controller
     {
         $questLog->status = 3;
         $quest = $questLog->quest;
-        $org_user = $quest->author;
 
         $user = $questLog->user;
         $user->points = $user->points + $quest->points;
 
-        $org_user->points = $org_user->points - $quest->points;
         $quest->status = 2;
-        $org_user->save();
         $user->save();
         $questLog->save();
         $quest->save();
