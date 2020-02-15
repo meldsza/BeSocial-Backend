@@ -30,44 +30,27 @@ active
                 <table class="table dataTable my-0" id="dataTable">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>NGO ID</th>
+                            <th>Identification Number</th>
                             <th>NGO Name</th>
                             <th>User ID</th>
-                            <th>Created on</th>
-                            <th>Status</th>
+                            <th>Verified</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach($res as $value)
                         <tr>
-                            <td>111</td>
-                            <td>987123</td>
-                            <td>NGOone</td>
-                            <td>001</td>
-                            <td>2020/02/14</td>
-                            <td>verified</td>
+                            <td>{{ $value->identification_number }}</td>
+                            <td>{{ $value->name }}</td>
+                            <td>{{ $value->user_id }}</td>
+                            <td>{{ $value->verified }}</td>
                             <td>
                                 <a class="warnban"><i class="text-center btn-danger fa fa-ban" aria-hidden="true"
                                         data-toggle="tooltip" data-placement="right" title="Reject"></i>
                                 </a>
                             </td>
                         </tr>
-                        <tr>
-                            <td>112</td>
-                            <td>612383</td>
-                            <td>NGOtwo</td>
-                            <td>002</td>
-                            <td>2020/02/14<br></td>
-                            <td>pending</td>
-                            <td>
-                                <a class="warnban"><i class="text-center btn-danger fa fa-ban" aria-hidden="true"
-                                        data-toggle="tooltip" data-placement="right" title="Reject"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr></tr>
-                        <tr></tr>
+                        @endforeach
                     </tbody>
                     <tfoot>
                         <tr></tr>

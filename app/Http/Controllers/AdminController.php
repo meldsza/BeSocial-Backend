@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Category;
 use App\Quest;
+use App\NGO;
 
 class AdminController extends Controller
 {
@@ -28,7 +29,8 @@ class AdminController extends Controller
 
     public function ngoapplication()
     {
-        return view('admin/ngoapplication');
+        $res = NGO::all();
+        return view('admin/ngoapplication', compact('res'));
     }
 
     public function users()
