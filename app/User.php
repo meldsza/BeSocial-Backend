@@ -18,6 +18,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name', 'email', 'password', 'phone', 'points', 'avatar', 'latitude', 'longitude',
     ];
+    protected $with = ['ngo'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -45,5 +46,9 @@ class User extends Authenticatable
     public function quest_logs()
     {
         return $this->hasMany("App\QuestLog");
+    }
+    public function ngo()
+    {
+        return $this->hasOne("App\NGO");
     }
 }
